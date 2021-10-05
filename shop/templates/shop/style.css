@@ -1,0 +1,11 @@
+*{
+    margin: 0;
+    padding: 0;
+    background-color: red;
+}
+.stwal{
+    background-color: red;
+    display: flex;
+    width: 90%;
+    height: max-content;
+}

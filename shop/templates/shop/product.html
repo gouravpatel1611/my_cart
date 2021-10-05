@@ -1,0 +1,181 @@
+{% extends 'shop/besic.html' %}
+{% block title%} Track Your Products {% endblock%}
+{% block css %}
+<style>
+    
+    .quantity{
+        width: 15%;
+        margin-left: 1%;
+        margin-right: 1%;
+    }
+    #product_img{
+        width: 90%;
+        height: auto;
+        max-height: 70vh;
+    }
+    
+</style>
+{% endblock %}
+{% block body %}
+
+{% for i in product%}
+<div class="container my-1">
+    <h1>{{i.sub_category}}</h1>
+    <!-- <h1>btn{{i.id}}</h1> -->
+    <hr>
+    <!--Section: Block Content-->
+    <section class="mb-5">
+        <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <div id="mdb-lightbox-ui"></div>
+                <div class="mdb-lightbox">
+                    <div class="row product-gallery mx-1">
+                        <div class="col-12 mb-0">
+                            <figure class="view overlay rounded z-depth-1 main-img">
+                                <a href="/media/{{i.image}}" data-size="710x823">
+                                    <img id="product_img" src="/media/{{i.image}}" class="img-fluid z-depth-1">
+                                </a>
+                            </figure>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+
+                <h5>{{i.Product_name}}</h5>
+                <p class="mb-2 text-muted text-uppercase small">{{i.category}}</p>
+
+                <p><span class="mr-1"><strong>Rs- <span id="rate">{{i.price}}</span>&#x20B9;/- </strong></span></p>
+
+                <p class="pt-1">{{i.desc}}</p>
+                <div class="table-responsive">
+                    <table class="table table-sm table-borderless mb-0">
+                        <tbody>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Model</strong></th>
+                                <td>{{i.model}}</td>
+                            </tr>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Color</strong></th>
+                                <td>{{i.color}}</td>
+                            </tr>
+                            <tr>
+                                <th class="pl-0 w-25" scope="row"><strong>Delivery</strong></th>
+                                <td>India (all state)</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <hr>
+                <div class="table-responsive mb-2">
+                    <table class="table table-sm table-borderless">
+                        <tbody>
+                            <tr>
+                                <td class="pl-0 pb-0 w-25"><b>Quantity</b></td>
+                            </tr>
+                            <tr>
+                                <td class="pl-0">
+                                    <div class="def-number-input number-input safari_only mb-0">
+                                        <button id="mainus" onclick="mainus_btn()" type="button" class="btn  btn-primary btn-md mr-1 mb-2">-</button>
+                                        <input id="value" class="quantity" min="0" name="quantity" value="1" type="number">
+                                        <button id="plus" onclick="plus_btn()" type="button" class="btn  btn-primary btn-md mr-1 mb-2">+</button>
+                                    </div>
+                                </td>
+                            </tr>
+                            <td>
+                                <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
+                                <button id="btn{{i.id}}" onclick="add_to_cart(this.id)" type="button"
+                                    class="btn btn-info btn-md mr-1 mb-2 mx-3"><i class="fas fa-shopping-cart pr-2"></i>Add
+                                    to cart</button>
+                            </td>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!--Section: Block Content-->
+</div>
+{% endfor %}
+{% endblock %}
+
+{% block js %}
+{% for i in product%}
+<script>
+    // rate ke liye 
+        price = document.getElementById('rate').innerHTML
+    function price_update(){
+        if (price > 1 ) {
+            new_price = price*parseInt(document.getElementById('value').value)
+            document.getElementById('rate').innerHTML = new_price
+        }
+        if (price == 1) {
+            document.getElementById('rate').innerHTML = price
+        }
+    }
+    // .......................................................
+
+
+    // local storage me update karne liye
+    
+
+    // number of ieam ke liye
+    num_value = document.getElementById('value').value
+    function mainus_btn(){
+        if (document.getElementById('value').value != 1) {
+            document.getElementById('value').value = parseInt(document.getElementById('value').value)-1
+            price_update()
+            add_in_local(parseInt(document.getElementById('value').value))
+        }
+    }
+    function plus_btn(){
+        document.getElementById('value').value = parseInt(document.getElementById('value').value)+1
+        price_update()
+        add_in_local(parseInt(document.getElementById('value').value))
+    }
+    // ....................................................................
+  
+
+
+    // localstorage me add karne ke liye
+    function add_in_local( num) {
+        console.log(num);
+        cart = JSON.parse(localStorage.getItem('cart'))
+        cart["btn{{i.id}}"] = num
+        localStorage.setItem('cart', JSON.stringify(cart))
+    }
+
+    // relode hone par update karna
+    cart = JSON.parse(localStorage.getItem('cart'))
+    document.getElementById('value').value =  cart["btn{{i.id}}"]
+
+    // button par click karne ke baad remove ka option dene ka code
+    function add_to_cart(e) {
+        idstr = e.toString()
+        console.log(idstr);
+        cart = JSON.parse(localStorage.getItem('cart'))
+        my_cart = { }
+        if (cart[idstr] == undefined) {
+            cart[idstr] = 1;
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+        else {  
+            for(key in cart){
+                if(key != idstr){
+                    my_cart[key] = cart[key] 
+                }
+            }
+            button = document.getElementById(idstr)
+            if(button != null){
+              button.innerHTML = "Add To cart"
+              button.style.backgroundColor = "#0dcaf0"
+            }
+        localStorage.setItem('cart', JSON.stringify(my_cart));
+        }
+        btn()
+        update_cart()
+        document.getElementById('value').value =  cart["btn{{i.id}}"]
+    }
+</script>
+{% endfor %}
+{% endblock %}
