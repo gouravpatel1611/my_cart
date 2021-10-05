@@ -100,6 +100,7 @@
 {% endblock %}
 
 {% block js %}
+
 {% for i in product%}
 <script>
     // rate ke liye 
@@ -176,6 +177,7 @@
         update_cart()
         document.getElementById('value').value =  cart["btn{{i.id}}"]
     }
+    console.log("trg");
 </script>
 {% endfor %}
 {% endblock %}
