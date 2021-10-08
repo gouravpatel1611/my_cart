@@ -42,4 +42,5 @@ def product_view(request , my_id):
     return render(request, 'shop/product.html', {'product':product})
 
 def cart(request):
-    return render(request, 'shop/cart.html')
+    product = Product.objects.all
+    return render(request, 'shop/cart.html',{'product':product})
