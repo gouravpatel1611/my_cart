@@ -43,6 +43,9 @@
     .braker{
         border-top: 3px solid red;
     }
+    .cart-btn-buy{
+        margin-top: 10px;
+    }
 </style>
 
 
@@ -75,10 +78,10 @@
                         <td>   </td>
                         <td>   </td>
                         <td>
-                            <h5>Subtotal</h5>
+                            <h5>Items price:-</h5>
                         </td>
                         <td class="text-right">
-                            <h5><strong>$24.59</strong></h5>
+                            <h5><strong><span id="item_price">0</span>  &#8377;</strong></h5>
                         </td>
                     </tr>
                     <tr>
@@ -86,10 +89,10 @@
                         <td>   </td>
                         <td>   </td>
                         <td>
-                            <h5>Estimated shipping</h5>
+                            <h5>Shipping charge:-</h5>
                         </td>
                         <td class="text-right">
-                            <h5><strong>$6.94</strong></h5>
+                            <h5><strong>60  &#8377;</strong></h5>
                         </td>
                     </tr>
                     <tr>
@@ -100,7 +103,7 @@
                             <h3>Total</h3>
                         </td>
                         <td class="text-right">
-                            <h3><strong>$31.53</strong></h3>
+                            <h3><strong><span id="total_rs"></span>  &#8377;</strong></h3>
                         </td>
                     </tr>
                     <tr>
@@ -108,9 +111,9 @@
                         <td>   </td>
                         <td>   </td>
                         <td>
-                            <button type="button" class="btn btn-default">
+                            <a href="/shop" type="button" class="btn btn-default">
                                 <span class="glyphicon glyphicon-shopping-cart"></span> Continue Shopping
-                            </button>
+                            </a>
                         </td>
                         <td>
                             <button type="button" class="btn btn-success">
@@ -134,39 +137,41 @@
 </script>
 {% for item in product%}
 <script>
-id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{item.price}}"]
+id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{item.price}}", "{{item.image}}","{{item.id}}"]
 </script>
 {% endfor %}
 <script>
-    
+    kul_rs = 0
+    num_itm = JSON.parse(localStorage.getItem('cart'))
     if (arr.length != 0) {
-        
         for(itm in arr){
         value = id_box[arr[itm]]
-
-    cart_itm =`
+         total_rs = value[2]*num_itm[arr[itm]]
+        kul_rs = kul_rs+total_rs
+        cart_itm =`
     <tr> 
                         <td class="col-sm-8 col-md-6">
                             <div class="media">
-                                <a class="thumbnail pull-left" href="#"> <img class="media-object"
-                                        src="http://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/72/product-icon.png"
-                                        style="width: 72px; height: 72px;"> </a>
+                                <a class="thumbnail pull-left" href="/media/${value[3]}"> <img class="media-object"
+                                        src="/media/${value[3]}"
+                                        style="width: 72px; height: auto;"> </a>
                                 <div class="media-body">
-                                    <h4 class="media-heading"><a href="#">${value[0]}</a></h4>
-                                    <h5 class="media-heading"> from:- <a href="#">${value[1]}</a></h5>
+                                    <h4 class="media-heading"><a href="/shop/product/${value[4]}">${value[0]}</a></h4>
+                                    <h5 class="media-heading"> from:- <a href="/shop/">${value[1]}</a></h5>
                                     <span>Status: </span><span class="text-warning"><strong>In Stock</strong></span>
                                 </div>
                             </div>
                         </td>
                         <td class="col-sm-1 col-md-1" style="text-align: center">
-                            <input type="email" class="form-control" id="exampleInputEmail1" value="3">
+                            <input type="email" class="form-control" id="exampleInputEmail1" value="${num_itm[arr[itm]]}">
                         </td>
                         <td class="col-sm-1 col-md-1 text-center"><strong>${value[2]} &#8377;</strong></td>
-                        <td class="col-sm-1 col-md-1 text-center"><strong>$14.61</strong></td>
+                        <td class="col-sm-1 col-md-1 text-center"><strong>${value[2]*num_itm[arr[itm]]} &#8377;</strong></td>
                         <td class="col-sm-1 col-md-1">
                             <button type="button" id="${arr[itm]}" onclick="my_cart_Function(this.id)"" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove"></span> Remove
                             </button>
+                            <button type="button" class="btn cart-btn-buy btn-primary btn-md mr-1 mb-2">Buy Only</button>
                         </td>
                     </tr> 
     `+document.querySelector('tbody').innerHTML
@@ -177,10 +182,11 @@ id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{ite
         main = document.querySelector('.container')
         main.style.color = "blue"
         main.style.fontSize = "70px"
-        console.log(main);
         
 
     }
+    document.getElementById('item_price').innerHTML = kul_rs
+    document.getElementById('total_rs').innerHTML = parseInt(kul_rs)+60
     function my_cart_Function(e) {
         idstr = e.toString()
         console.log(idstr);

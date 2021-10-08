@@ -77,7 +77,7 @@
                                 <td class="pl-0">
                                     <div class="def-number-input number-input safari_only mb-0">
                                         <button id="mainus" onclick="mainus_btn()" type="button" class="btn  btn-primary btn-md mr-1 mb-2">-</button>
-                                        <input id="value" class="quantity" min="0" name="quantity" value="1" type="number">
+                                        <input id="value" class="quantity" min="0" name="quantity"  type="number">
                                         <button id="plus" onclick="plus_btn()" type="button" class="btn  btn-primary btn-md mr-1 mb-2">+</button>
                                     </div>
                                 </td>
@@ -85,8 +85,9 @@
                             <td>
                                 <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
                                 <button id="btn{{i.id}}" onclick="add_to_cart(this.id)" type="button"
-                                    class="btn btn-info btn-md mr-1 mb-2 mx-3"><i class="fas fa-shopping-cart pr-2"></i>Add
-                                    to cart</button>
+                                class="btn btn-info btn-md mr-1 mb-2 mx-3"><i class="fas fa-shopping-cart pr-2"></i>Add
+                                to cart</button>
+                                <a href="/shop/cart" class="btn btn-success btn-md mr-1 mb-2">Go To Cart</a>
                             </td>
                         </tbody>
                     </table>
@@ -103,6 +104,10 @@
 
 {% for i in product%}
 <script>
+        // relode hone par update karna
+        cart = JSON.parse(localStorage.getItem('cart'))
+        document.getElementById('value').value =  cart["btn{{i.id}}"]
+
     // rate ke liye 
         price = document.getElementById('rate').innerHTML
     function price_update(){
@@ -114,6 +119,7 @@
             document.getElementById('rate').innerHTML = price
         }
     }
+    price_update()
     // .......................................................
 
 
@@ -123,16 +129,26 @@
     // number of ieam ke liye
     num_value = document.getElementById('value').value
     function mainus_btn(){
-        if (document.getElementById('value').value != 1) {
+        if (document.getElementById('value').value != 1 & document.getElementById('value').value != "") {
             document.getElementById('value').value = parseInt(document.getElementById('value').value)-1
             price_update()
             add_in_local(parseInt(document.getElementById('value').value))
         }
+        else{
+            document.getElementById('value').value = 1
+            add_to_cart("btn{{i.id}}")
+        }
     }
     function plus_btn(){
-        document.getElementById('value').value = parseInt(document.getElementById('value').value)+1
-        price_update()
-        add_in_local(parseInt(document.getElementById('value').value))
+        if (document.getElementById('value').value != "") {
+            document.getElementById('value').value = parseInt(document.getElementById('value').value)+1
+            price_update()
+            add_in_local(parseInt(document.getElementById('value').value))
+        }
+        else{
+            document.getElementById('value').value = 1
+            add_to_cart("btn{{i.id}}")
+        }
     }
     // ....................................................................
   
@@ -140,20 +156,16 @@
 
     // localstorage me add karne ke liye
     function add_in_local( num) {
-        console.log(num);
         cart = JSON.parse(localStorage.getItem('cart'))
         cart["btn{{i.id}}"] = num
         localStorage.setItem('cart', JSON.stringify(cart))
     }
 
-    // relode hone par update karna
-    cart = JSON.parse(localStorage.getItem('cart'))
-    document.getElementById('value').value =  cart["btn{{i.id}}"]
+
 
     // button par click karne ke baad remove ka option dene ka code
     function add_to_cart(e) {
         idstr = e.toString()
-        console.log(idstr);
         cart = JSON.parse(localStorage.getItem('cart'))
         my_cart = { }
         if (cart[idstr] == undefined) {
@@ -177,7 +189,6 @@
         update_cart()
         document.getElementById('value').value =  cart["btn{{i.id}}"]
     }
-    console.log("trg");
 </script>
 {% endfor %}
 {% endblock %}
