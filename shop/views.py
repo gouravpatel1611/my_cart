@@ -44,3 +44,7 @@ def product_view(request , my_id):
 def cart(request):
     product = Product.objects.all
     return render(request, 'shop/cart.html',{'product':product})
+
+
+def buynow(request):
+    return render(request, 'shop/bynow.html')

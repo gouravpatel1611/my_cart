@@ -125,6 +125,7 @@
                 </tbody>
             </table>
         </div>
+        
     </div>
 </div>
 {% endblock %}
@@ -171,7 +172,7 @@ id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{ite
                             <button type="button" id="${arr[itm]}" onclick="my_cart_Function(this.id)"" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove"></span> Remove
                             </button>
-                            <button type="button" class="btn cart-btn-buy btn-primary btn-md mr-1 mb-2">Buy Only</button>
+                            <a href="/shop/buynow/"> <button type="button" class="btn cart-btn-buy btn-primary btn-md mr-1 mb-2">Buy Only</button></a>
                         </td>
                     </tr> 
     `+document.querySelector('tbody').innerHTML
