@@ -116,9 +116,9 @@
                             </a>
                         </td>
                         <td>
-                            <button type="button" class="btn btn-success">
+                            <a href="/shop/buynow/"> <button onclick="set_only_itm(true)" type="button" class="btn btn-success">
                                 Checkout <span class="glyphicon glyphicon-play"></span>
-                            </button>
+                            </button> </a>
                         </td>
                     </tr>
                     <!-- price yaha par khatm hota hai  -->
@@ -138,7 +138,7 @@
 </script>
 {% for item in product%}
 <script>
-id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{item.price}}", "{{item.image}}","{{item.id}}"]
+id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{item.price}}", "{{item.image}}","{{item.id}}"] //"buy_btn{{item.id}}"
 </script>
 {% endfor %}
 <script>
@@ -169,10 +169,10 @@ id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{ite
                         <td class="col-sm-1 col-md-1 text-center"><strong>${value[2]} &#8377;</strong></td>
                         <td class="col-sm-1 col-md-1 text-center"><strong>${value[2]*num_itm[arr[itm]]} &#8377;</strong></td>
                         <td class="col-sm-1 col-md-1">
-                            <button type="button" id="${arr[itm]}" onclick="my_cart_Function(this.id)"" class="btn btn-danger">
+                            <button type="button" id="${arr[itm]}" onclick="my_cart_Function(this.id)" class="btn btn-danger">
                                 <span class="glyphicon glyphicon-remove"></span> Remove
                             </button>
-                            <a href="/shop/buynow/"> <button type="button" class="btn cart-btn-buy btn-primary btn-md mr-1 mb-2">Buy Only</button></a>
+                            <a href="/shop/buynow/"> <button onclick="set_only_itm('${arr[itm]}')"  type="button" class="btn cart-btn-buy btn-primary btn-md mr-1 mb-2">Buy Only</button></a> 
                         </td>
                     </tr> 
     `+document.querySelector('tbody').innerHTML
@@ -210,6 +210,11 @@ id_box["btn{{item.id}}"] = ["{{item.Product_name}}", "{{item.category}}", "{{ite
         // btn()
         update_cart()
         location.reload();
+    }
+
+    // yaha par buy only button ka script likha gya hai :-
+    function set_only_itm(element){
+        localStorage.setItem('item', JSON.stringify(element))
     }
 </script>
 {% endblock %}

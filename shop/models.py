@@ -35,10 +35,15 @@ class Contect(models.Model):
 class Orders(models.Model):
     order_id = models.AutoField(primary_key=True)
     item_json = models,CharField(max_length=5000)
-    name = models.CharField(max_length=90)
+    first_name = models.CharField(max_length=90, default="" )
+    last_name = models.CharField(max_length=90, default="" )
+    phone = models.CharField(max_length=90, default="" )
     email = models.CharField(max_length=90)
-    address = models.CharField(max_length=500)
-    city = models.CharField(max_length=90)
+    address1 = models.CharField(max_length=500,default="")
+    address2 = models.CharField(max_length=500,default="")
     state = models.CharField(max_length=90)
+    city = models.CharField(max_length=90)
     pin_code = models.CharField(max_length=90)
-    phone = models.CharField(max_length=90 , default="" )
+    address_for_next_time = models.CharField(max_length=100,default="" )
+
+    

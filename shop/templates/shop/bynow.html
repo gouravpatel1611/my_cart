@@ -18,10 +18,15 @@
 
     .body-container {
         display: flex;
-        flex-direction: row-reverse;
         justify-content: space-around;
     }
-
+    
+    .row{
+        flex-direction: row;
+    }
+    .row-rev{
+        flex-direction: row-reverse;
+    }
 
 
     .summary {
@@ -452,5 +457,22 @@
     });
 
 
+</script>
+
+
+
+<script>
+    // yaha page par item ke anusra templatet lagane ka kaam kiya ja rha hai 
+    console.log(localStorage.getItem('item') );
+    if(localStorage.getItem('item') == 'true' ){
+        console.log("cart wala propty chalu kar do ");
+        document.querySelector('.body-container').classList.add("row")
+        document.getElementById('buy_cart').style.display = 'none' 
+        document.querySelector('.summary1').style.display = 'block'
+    }
+    else{
+        document.querySelector('.body-container').classList.add("row-rev")
+        console.log( document.querySelector('.body-container') );
+    }
 </script>
 {% endblock %}
