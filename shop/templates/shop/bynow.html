@@ -20,11 +20,12 @@
         display: flex;
         justify-content: space-around;
     }
-    
-    .row{
+
+    .row {
         flex-direction: row;
     }
-    .row-rev{
+
+    .row-rev {
         flex-direction: row-reverse;
     }
 
@@ -36,12 +37,13 @@
         width: max-content;
         padding: 2%;
     }
-    
+
     .summary1 {
-        background-color: rgb(196, 188, 188);
+        background-color: rgb(126 221 149);
+        min-width: 40%;
         display: none;
     }
-    
+
     .summary2 {
 
         background-color: rgb(212, 247, 221);
@@ -51,9 +53,11 @@
         display: flex;
         justify-content: space-between;
     }
-    body{
+
+    body {
         background-color: rgba(0, 0, 0, 0.137)
     }
+
     /* .buy_cart{
         border: 2px solid black;
         height: fit-content;
@@ -63,7 +67,25 @@
 
 
     /* cart ka css yaha par se suru hota hai  */
+</style>
+
+
+<style>
     @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+    #buy_cart {
+        min-width: 40%;
+    }
+
+    #itm_no {
+
+        background-color: #0033ff;
+        border-radius: 25px;
+    }
+
+    .h5 {
+        max-width: max-content;
+    }
 
     #buy_cart,
     #summary {
@@ -167,9 +189,36 @@
     .wrapper .row+div.text-muted {
         font-size: 0.9rem
     }
-   .total{
-       border-top: 2px solid black;
-   }
+
+    .total {
+        border-top: 2px solid black;
+    }
+
+    .border-cart {
+        border-bottom: 2px solid black;
+    }
+
+
+    .cart_top {
+        justify-content: space-between;
+    }
+
+    .no_price {
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+    }
+    .df{
+        display: flex;
+        align-items: center;
+    }
+    .go_cart{
+        margin: auto;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 3%;
+    }
 </style>
 
 
@@ -270,42 +319,44 @@
 
     <!-- jab koi aadmi cart se saman leta hai tab ye wala interface dikhana hai  -->
     <div class="col-md-4 order-md-2 mb-4 summary summary1">
-        <h4 class="d-flex justify-content-between align-items-center mb-3">
-            <span class="text-muted">Your cart</span>
-            <span class="badge badge-secondary badge-pill">3</span>
+        <h4 class="d-flex justify-content-around align-items-center mb-3">
+            <span class="text-muted df"><h2> Your cart   </h2><span id="itm_no" class="badge badge-secondary badge-pill mx-3 "> 8</span></span>
         </h4>
         <ul class="list-group mb-3">
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
+
+
+            <li class="list-group-item d-flex justify-content-between lh-condensed mb-1 border-cart">
                 <div>
-                    <h6 class="my-0">Product name</h6>
-                    <small class="text-muted">Brief description</small>
+                    <h5 class="my-0">Product name</h5>
                 </div>
-                <span class="text-muted">$12</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Second product</h6>
-                    <small class="text-muted">Brief description</small>
+                <div class="no_price">
+                    <b> <span> No. of Items</span> </b>
+                    <span class="text-muted"> <b> Price </b> </span>
                 </div>
-                <span class="text-muted">$8</span>
             </li>
-            <li class="list-group-item d-flex justify-content-between lh-condensed">
-                <div>
-                    <h6 class="my-0">Third item</h6>
-                    <small class="text-muted">Brief description</small>
-                </div>
-                <span class="text-muted">$5</span>
-            </li>
-            <li class="list-group-item d-flex justify-content-between bg-light">
+
+            <span id="cart_itm_list">
+
+               
+            </span>
+
+
+
+            <li class="list-group-item d-flex justify-content-between bg-light my-2 mb-0">
                 <div class="text-success">
                     <h6 class="my-0">Promo code</h6>
                     <small>EXAMPLECODE</small>
                 </div>
-                <span class="text-success">-$5</span>
+                <span class="text-success">&#x20B9; 0</span>
             </li>
-            <li class="list-group-item d-flex justify-content-between">
-                <span>Total (USD)</span>
-                <strong>$20</strong>
+            <li class="list-group-item d-flex justify-content-between ">
+                <span>  Shipping charge </span>
+                <span class="text-danger">&#x20B9; 60/-</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between my-2">
+              <h4>  <span> <b> Total (RS.) </b> </span></h4>
+               <h4> <strong> <samp id="total_cart"></samp> </strong></h4>
             </li>
         </ul>
 
@@ -317,6 +368,11 @@
                 </div>
             </div>
         </form>
+
+        <div class="go_cart">
+            <a href="/shop/cart" class="btn btn-info btn-md mr-1 mb-2"> <h5>Go To Cart </h5></a>
+        </div>
+
     </div>
     <!-- yaha par ye khatm huaa hai  -->
 
@@ -324,35 +380,33 @@
     <!-- yaha par wo dikhaya jayega jab by now me click huaa ho  -->
     <div id="buy_cart" class=" rounded  summary summary2">
         <div class="d-flex justify-content-between align-items-center">
-            <div class="h6">Cart Summary</div>
-            <div class="h6"> <a href="#">Edit</a> </div>
-        </div>
-        <div class="d-flex jusitfy-content-between align-items-center pt-3 pb-2 border-bottom">
-            <div class="item pr-2"> <img
-                    src="https://images.unsplash.com/photo-1569488859134-24b2d490f23f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=60"
-                    alt="" width="80" height="80">
-                <div class="number">2</div>
+            <div class="h6 m-auto border-cart ">
+                <h3> Cart Summary </h3>
             </div>
-            <div class="d-flex flex-column px-3"> <b class="h5">BattleCreek Coffee</b> <a href="#"
-                    class="h5 text-primary">C-770</a> </div>
-            <div class="ml-auto"> <b class="h5">$80.9</b> </div>
         </div>
-        <div class="my-3"> <input type="text" class="w-100 form-control text-center"
-                placeholder="Gift Card or Promo Card"> </div>
+        <div class="d-flex jusitfy-content-between cart_top align-items-center pt-3 pb-2 border-cart">
+            <div id="cart_img" class="item pr-2 ">
+            </div>
+            <div class="d-flex flex-column px-3 cart_top"> <b class="h5"> <span id="cart_name"></span> </b> <a
+                    href="/shop" class="h5 text-primary"> <span id="cart_category"></span> </a> </div>
+            <div class="ml-auto"> <b class="h5"> <span id="cart_price"></span> </b> </div>
+        </div>
+        <div class="my-3"> <input type="text" class="w-100 form-control text-center" readonly
+                placeholder="You have not now any Gift  or Promo Card"> </div>
         <div class="d-flex align-items-center price">
-            <div class="display-5">Subtotal</div>
-            <div class="ml-auto font-weight-bold">$80.9</div>
+            <div class="display-5">Price</div>
+            <div class="ml-auto font-weight-bold"><span id="cart_price2"></span></div>
         </div>
-        <div class="d-flex align-items-center py-2 border-bottom price">
-            <div class="display-5">Shipping</div>
-            <div class="ml-auto font-weight-bold">$12.9</div>
+        <div class="d-flex align-items-center py-2  price">
+            <div class="display-5">Shipping charge</div>
+            <div class="ml-auto font-weight-bold">&#x20B9; 60/- </div>
         </div>
-        
+
         <div class="d-flex align-items-center py-2 price total">
             <div class="display-5">Total</div>
             <div class="ml-auto d-flex">
-                <div class="text-primary text-uppercase px-3">usd</div>
-                <div class="font-weight-bold">$92.98</div>
+                <div class="text-primary text-uppercase px-3"><b> RS.</b></div>
+                <div class="font-weight-bold"> <span id="total_price"></span> </div>
             </div>
         </div>
     </div>
@@ -361,6 +415,10 @@
 {% endblock %}
 
 {% block js %}
+
+
+
+
 <script>
 
     (function () {
@@ -389,7 +447,6 @@
     const selectElement = document.querySelector('#state');
 
     selectElement.addEventListener('change', (event) => {
-        console.log(event.target.value);
         document.querySelector("#dist").innerHTML = `<option value="">Choose...</option>`
         if (event.target.value == "Chhattisgarh") {
             var cg_dist = ["Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada (South Bastar)", "Dhamtari", "Durg", "Gariyaband", "Janjgir-Champa", "Jashpur", "Kabirdham (Kawardha)", "Kanker (North Bastar)", "Kondagaon", "Korba", "Korea (Koriya)", "Mahasamund", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sukma", "Surajpur", "Surguja"]
@@ -463,16 +520,56 @@
 
 <script>
     // yaha page par item ke anusra templatet lagane ka kaam kiya ja rha hai 
-    console.log(localStorage.getItem('item') );
-    if(localStorage.getItem('item') == 'true' ){
-        console.log("cart wala propty chalu kar do ");
+    if (localStorage.getItem('item') == 'true') {
         document.querySelector('.body-container').classList.add("row")
-        document.getElementById('buy_cart').style.display = 'none' 
+        document.getElementById('buy_cart').style.display = 'none'
         document.querySelector('.summary1').style.display = 'block'
+        total_rs = 60
+        no_item = 0
+        // yaha par se isme product add karne ka prakriya chalu ho rah hai 
+        var cart_item = JSON.parse(localStorage.getItem('cart'))
+        for (item in cart_item) {
+            no_item += parseInt(cart_item[item])
+            cart_itm_html = document.getElementById('cart_itm_list').innerHTML
+            //{% for item in product%}
+            if ("btn{{item.id}}" == item) {
+                console.log(true);
+                document.getElementById('cart_itm_list').innerHTML = cart_itm_html + `
+                    
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                     <div>
+                         <h6 class="my-0">{{item.Product_name}}</h6>
+                            <small class="text-muted">{{item.category}}</small>
+                     </div>
+                     <div class="no_price">
+                            <span>${cart_item[item]}</span>
+                         <span class="text-muted">&#x20B9; ${parseInt(cart_item[item]) * parseInt("{{item.price}}")}/-</span>
+                     </div>
+                    </li>
+                    
+                    `
+                    total_rs += parseInt(cart_item[item]) * parseInt("{{item.price}}")
+            }
+            //{% endfor %}
+            document.getElementById('total_cart').innerHTML = `&#x20B9; ${total_rs}/-`
+            console.log(no_item);
+            document.getElementById('itm_no').innerHTML = no_item
+        }
     }
-    else{
+    else {
         document.querySelector('.body-container').classList.add("row-rev")
-        console.log( document.querySelector('.body-container') );
+        //{% for item in product%}
+        if ("btn{{item.id}}" == JSON.parse(localStorage.getItem('item'))) {
+            console.log("yaha par male kha gya hai ");
+            document.getElementById('cart_name').innerHTML = "{{item.Product_name}}"
+            document.getElementById('cart_category').innerHTML = "{{item.category}}"
+            document.getElementById('cart_price').innerHTML = "&#x20B9; {{item.price}}/-"
+            document.getElementById('cart_price2').innerHTML = "&#x20B9; {{item.price}}/-"
+            document.getElementById('total_price').innerHTML = `&#x20B9; ${parseInt("{{item.price}}") + 60} /-`
+            document.getElementById('cart_img').innerHTML = ` <img src="/media/{{item.image}}" alt="" width="auto" height="80">`
+
+        }
+        //{% endfor %}
     }
 </script>
 {% endblock %}

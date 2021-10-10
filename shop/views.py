@@ -47,4 +47,5 @@ def cart(request):
 
 
 def buynow(request):
-    return render(request, 'shop/bynow.html')
+    product = Product.objects.all
+    return render(request, 'shop/bynow.html',{'product':product})
