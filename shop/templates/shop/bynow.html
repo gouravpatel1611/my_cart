@@ -10,6 +10,7 @@
         color: black;
         background-color: rgba(224, 107, 235, 0.349);
         width: fit-content;
+        height: max-content;
     }
 
     .by-btn {
@@ -57,16 +58,11 @@
     body {
         background-color: rgba(0, 0, 0, 0.137)
     }
-
-    /* .buy_cart{
-        border: 2px solid black;
-        height: fit-content;
-        width: max-content;
-    } */
+    #itm_jeson{
+        display: none;
+    }
 
 
-
-    /* cart ka css yaha par se suru hota hai  */
 </style>
 
 
@@ -229,26 +225,27 @@
 
     <div class="col-md-8 order-md-1 form-div">
         <h4 class="mb-3">Billing address</h4>
-        <form class="needs-validation" novalidate="">
+
+
+        <form class="needs-validation" novalidate="" action="/shop/buynow/" method="post" > {% csrf_token %}
+            <input id="itm_jeson" name="item_jeson" type="text" value="halo"  >
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="firstName">First name</label>
-                    <input type="text" class="form-control" id="firstName" placeholder="" value="" required="">
+                    <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" value="" required="">
                     <div class="invalid-feedback"> Valid first name is required. </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="lastName">Last name</label>
-                    <input type="text" class="form-control" id="lastName" placeholder="" value="" required="">
+                    <input type="text" class="form-control" name="lastName" id="lastName" placeholder="" value="" required="">
                     <div class="invalid-feedback"> Valid last name is required. </div>
                 </div>
             </div>
 
 
-
-
             <div class="mb-3">
                 <label for="phone">Phone</label>
-                <input type="text" class="form-control " id="phone" placeholder="Enter your phone number" required=""
+                <input type="text" class="form-control " name="phone" id="phone" placeholder="Enter your phone number" required=""
                     maxlength="10" minlength="10">
                 <div class="invalid-feedback"> Please enter your valid phone number. </div>
             </div>
@@ -257,7 +254,7 @@
 
             <div class="mb-3">
                 <label for="email">Email</label>
-                <input type="email" class="form-control " id="address" placeholder="Enter your email address"
+                <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email address"
                     required="">
                 <div class="invalid-feedback"> Please enter your valid email address. </div>
             </div>
@@ -265,18 +262,18 @@
 
             <div class="mb-3">
                 <label for="address">Address</label>
-                <input type="text" class="form-control" id="address" placeholder="1234 Main St" required="">
+                <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St" required="">
                 <div class="invalid-feedback"> Please enter your shipping address. </div>
             </div>
 
             <div class="mb-3">
                 <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
-                <input type="text" class="form-control" id="address2" placeholder="Apartment or suite">
+                <input type="text" class="form-control" name="address2" id="address2" placeholder="Apartment or suite">
             </div>
             <div class="row">
                 <div class="col-md-5 mb-3">
                     <label for="state">State</label>
-                    <select class="custom-select d-block w-100" id="state" required="">
+                    <select class="custom-select d-block w-100" name="state" id="state" required="">
                         <option value="">Choose...</option>
                         <option>Chhattisgarh</option>
                         <option>Madhypradesh</option>
@@ -294,20 +291,20 @@
 
 
                     <label for="dist">District</label>
-                    <select class="custom-select d-block w-100" id="dist" required="">
+                    <select class="custom-select d-block w-100" name="dist" id="dist" required="">
                         <option value="">Choose...</option>
                     </select>
                     <div class="invalid-feedback"> Please provide a valid distric ame. </div>
                 </div>
                 <div class="col-md-3 mb-3">
                     <label for="zip">Pin </label>
-                    <input type="text" class="form-control" id="zip" placeholder="" required="">
+                    <input type="text" class="form-control" name="zip" id="zip" placeholder="" required="">
                     <div class="invalid-feedback"> Pin code required. </div>
                 </div>
             </div>
 
             <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="save-info">
+                <input type="checkbox" class="custom-control-input" name="save_info" id="save-info">
                 <label class="custom-control-label" for="save-info">Save this information for next time</label>
             </div>
             <hr class="mb-4">
@@ -411,6 +408,13 @@
         </div>
     </div>
     <!-- yaha par cary buy now ka khatm hota hai  -->
+
+    <div>
+        {% for i in item_list %}
+        hlao
+        {% endfor %}
+    </div>
+
 </div>
 {% endblock %}
 
@@ -528,12 +532,13 @@
         no_item = 0
         // yaha par se isme product add karne ka prakriya chalu ho rah hai 
         var cart_item = JSON.parse(localStorage.getItem('cart'))
+        var item_jeson = {}
         for (item in cart_item) {
             no_item += parseInt(cart_item[item])
             cart_itm_html = document.getElementById('cart_itm_list').innerHTML
             //{% for item in product%}
             if ("btn{{item.id}}" == item) {
-                console.log(true);
+                item_jeson["{{item.Product_name}}"] = cart_item[item]
                 document.getElementById('cart_itm_list').innerHTML = cart_itm_html + `
                     
                     <li class="list-group-item d-flex justify-content-between lh-condensed">
@@ -552,21 +557,21 @@
             }
             //{% endfor %}
             document.getElementById('total_cart').innerHTML = `&#x20B9; ${total_rs}/-`
-            console.log(no_item);
             document.getElementById('itm_no').innerHTML = no_item
         }
+        document.getElementById('itm_jeson').value = JSON.stringify(item_jeson)
     }
     else {
         document.querySelector('.body-container').classList.add("row-rev")
         //{% for item in product%}
         if ("btn{{item.id}}" == JSON.parse(localStorage.getItem('item'))) {
-            console.log("yaha par male kha gya hai ");
             document.getElementById('cart_name').innerHTML = "{{item.Product_name}}"
             document.getElementById('cart_category').innerHTML = "{{item.category}}"
             document.getElementById('cart_price').innerHTML = "&#x20B9; {{item.price}}/-"
             document.getElementById('cart_price2').innerHTML = "&#x20B9; {{item.price}}/-"
             document.getElementById('total_price').innerHTML = `&#x20B9; ${parseInt("{{item.price}}") + 60} /-`
             document.getElementById('cart_img').innerHTML = ` <img src="/media/{{item.image}}" alt="" width="auto" height="80">`
+            document.getElementById('itm_jeson').value = '{"{{item.Product_name}}":1}'
 
         }
         //{% endfor %}

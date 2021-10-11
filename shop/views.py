@@ -1,7 +1,7 @@
 from django.http.response import HttpResponse
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Product , Contect
+from .models import Orders, Product , Contect
 from math import *
 
 # Create your views here.
@@ -48,4 +48,20 @@ def cart(request):
 
 def buynow(request):
     product = Product.objects.all
-    return render(request, 'shop/bynow.html',{'product':product})
+    if request.method=="POST":
+        item = request.POST.get('item_jeson', ' ')
+        firstName = request.POST.get('firstName',' ')
+        lastName = request.POST.get('lastName',' ')
+        phone = request.POST.get('phone',' ')
+        email = request.POST.get('email',' ')
+        address = request.POST.get('address',' ')
+        address2 = request.POST.get('address2',' ')
+        state = request.POST.get('state',' ')
+        dist = request.POST.get('dist',' ')
+        zip = request.POST.get('zip',' ')
+        save_info = request.POST.get('save_info',' ')
+        orders = Orders(first_name=firstName,last_name=lastName,items=item ,phone=phone,email=email,address1=address ,address2=address2 ,state=state ,city=dist ,pin_code= zip ,address_for_next_time=save_info)
+        orders.save()
+        address_list = [item, firstName , lastName , phone, email, address, address2, state, dist, zip, save_info ]
+    address_list = []
+    return render(request, 'shop/bynow.html',{'product':product, 'item_list': address_list})
