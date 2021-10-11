@@ -58,11 +58,11 @@
     body {
         background-color: rgba(0, 0, 0, 0.137)
     }
-    #itm_jeson{
+
+    #itm_jeson,
+    #total_rs {
         display: none;
     }
-
-
 </style>
 
 
@@ -204,11 +204,13 @@
         justify-content: space-between;
         width: 50%;
     }
-    .df{
+
+    .df {
         display: flex;
         align-items: center;
     }
-    .go_cart{
+
+    .go_cart {
         margin: auto;
         display: flex;
         justify-content: space-around;
@@ -227,17 +229,20 @@
         <h4 class="mb-3">Billing address</h4>
 
 
-        <form class="needs-validation" novalidate="" action="/shop/buynow/" method="post" > {% csrf_token %}
-            <input id="itm_jeson" name="item_jeson" type="text" value="halo"  >
+        <form id="form" class="needs-validation" novalidate="" method="post" action=""> {% csrf_token %}
+            <input id="itm_jeson" name="item_jeson" type="text" value="halo">
+            <input id="total_rs" name="total_rs" type="text" value="t">
             <div class="row">
                 <div class="col-md-6 mb-3">
                     <label for="firstName">First name</label>
-                    <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" value="" required="">
+                    <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" value=""
+                        required="">
                     <div class="invalid-feedback"> Valid first name is required. </div>
                 </div>
                 <div class="col-md-6 mb-3">
                     <label for="lastName">Last name</label>
-                    <input type="text" class="form-control" name="lastName" id="lastName" placeholder="" value="" required="">
+                    <input type="text" class="form-control" name="lastName" id="lastName" placeholder="" value=""
+                        required="">
                     <div class="invalid-feedback"> Valid last name is required. </div>
                 </div>
             </div>
@@ -245,8 +250,8 @@
 
             <div class="mb-3">
                 <label for="phone">Phone</label>
-                <input type="text" class="form-control " name="phone" id="phone" placeholder="Enter your phone number" required=""
-                    maxlength="10" minlength="10">
+                <input type="text" class="form-control " name="phone" id="phone" placeholder="Enter your phone number"
+                    required="" maxlength="10" minlength="10">
                 <div class="invalid-feedback"> Please enter your valid phone number. </div>
             </div>
 
@@ -262,7 +267,8 @@
 
             <div class="mb-3">
                 <label for="address">Address</label>
-                <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St" required="">
+                <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St"
+                    required="">
                 <div class="invalid-feedback"> Please enter your shipping address. </div>
             </div>
 
@@ -308,6 +314,8 @@
                 <label class="custom-control-label" for="save-info">Save this information for next time</label>
             </div>
             <hr class="mb-4">
+
+
             <button id="check_out" class="btn by-btn btn-primary btn-lg btn-block" type="submit">Continue to
                 checkout</button>
         </form>
@@ -317,7 +325,9 @@
     <!-- jab koi aadmi cart se saman leta hai tab ye wala interface dikhana hai  -->
     <div class="col-md-4 order-md-2 mb-4 summary summary1">
         <h4 class="d-flex justify-content-around align-items-center mb-3">
-            <span class="text-muted df"><h2> Your cart   </h2><span id="itm_no" class="badge badge-secondary badge-pill mx-3 "> 8</span></span>
+            <span class="text-muted df">
+                <h2> Your cart </h2><span id="itm_no" class="badge badge-secondary badge-pill mx-3 "> 8</span>
+            </span>
         </h4>
         <ul class="list-group mb-3">
 
@@ -334,7 +344,7 @@
 
             <span id="cart_itm_list">
 
-               
+
             </span>
 
 
@@ -347,13 +357,13 @@
                 <span class="text-success">&#x20B9; 0</span>
             </li>
             <li class="list-group-item d-flex justify-content-between ">
-                <span>  Shipping charge </span>
+                <span> Shipping charge </span>
                 <span class="text-danger">&#x20B9; 60/-</span>
             </li>
 
             <li class="list-group-item d-flex justify-content-between my-2">
-              <h4>  <span> <b> Total (RS.) </b> </span></h4>
-               <h4> <strong> <samp id="total_cart"></samp> </strong></h4>
+                <h4> <span> <b> Total (RS.) </b> </span></h4>
+                <h4> <strong> <samp id="total_cart"></samp> </strong></h4>
             </li>
         </ul>
 
@@ -367,7 +377,9 @@
         </form>
 
         <div class="go_cart">
-            <a href="/shop/cart" class="btn btn-info btn-md mr-1 mb-2"> <h5>Go To Cart </h5></a>
+            <a href="/shop/cart" class="btn btn-info btn-md mr-1 mb-2">
+                <h5>Go To Cart </h5>
+            </a>
         </div>
 
     </div>
@@ -416,6 +428,7 @@
     </div>
 
 </div>
+
 {% endblock %}
 
 {% block js %}
@@ -538,6 +551,7 @@
             cart_itm_html = document.getElementById('cart_itm_list').innerHTML
             //{% for item in product%}
             if ("btn{{item.id}}" == item) {
+                local_clear = true
                 item_jeson["{{item.Product_name}}"] = cart_item[item]
                 document.getElementById('cart_itm_list').innerHTML = cart_itm_html + `
                     
@@ -553,18 +567,22 @@
                     </li>
                     
                     `
-                    total_rs += parseInt(cart_item[item]) * parseInt("{{item.price}}")
+                total_rs += parseInt(cart_item[item]) * parseInt("{{item.price}}")
             }
             //{% endfor %}
             document.getElementById('total_cart').innerHTML = `&#x20B9; ${total_rs}/-`
             document.getElementById('itm_no').innerHTML = no_item
         }
+        console.log("halo");
+        console.log(item_jeson);
         document.getElementById('itm_jeson').value = JSON.stringify(item_jeson)
+        document.getElementById('total_rs').value = total_rs
     }
     else {
         document.querySelector('.body-container').classList.add("row-rev")
         //{% for item in product%}
         if ("btn{{item.id}}" == JSON.parse(localStorage.getItem('item'))) {
+            local_clear = false
             document.getElementById('cart_name').innerHTML = "{{item.Product_name}}"
             document.getElementById('cart_category').innerHTML = "{{item.category}}"
             document.getElementById('cart_price').innerHTML = "&#x20B9; {{item.price}}/-"
@@ -572,9 +590,19 @@
             document.getElementById('total_price').innerHTML = `&#x20B9; ${parseInt("{{item.price}}") + 60} /-`
             document.getElementById('cart_img').innerHTML = ` <img src="/media/{{item.image}}" alt="" width="auto" height="80">`
             document.getElementById('itm_jeson').value = '{"{{item.Product_name}}":1}'
+            document.getElementById('total_rs').value = "{{item.price}}"
 
         }
         //{% endfor %}
     }
+
+    form = document.getElementById('form')
+    form.addEventListener('submit', function () {
+        if (local_clear == true) {
+            localStorage.clear()
+        }
+       
+    })
 </script>
+
 {% endblock %}

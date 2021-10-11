@@ -37,7 +37,7 @@ class Orders(models.Model):
     # items = models,CharField(max_length=5000 , default="" )
     first_name = models.CharField(max_length=90, default="" )
     last_name = models.CharField(max_length=90, default="" )
-    items = models.CharField(max_length=300, default="" )
+    items = models.CharField(max_length=500, default="")
     phone = models.CharField(max_length=90, default="" )
     email = models.CharField(max_length=90)
     address1 = models.CharField(max_length=500,default="")
@@ -46,5 +46,6 @@ class Orders(models.Model):
     city = models.CharField(max_length=90)
     pin_code = models.CharField(max_length=90)
     address_for_next_time = models.CharField(max_length=100,default="" )
+    total_rs = models.CharField(max_length=90, default=" ")
 
     

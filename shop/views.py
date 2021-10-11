@@ -60,8 +60,18 @@ def buynow(request):
         dist = request.POST.get('dist',' ')
         zip = request.POST.get('zip',' ')
         save_info = request.POST.get('save_info',' ')
-        orders = Orders(first_name=firstName,last_name=lastName,items=item ,phone=phone,email=email,address1=address ,address2=address2 ,state=state ,city=dist ,pin_code= zip ,address_for_next_time=save_info)
+        total_rs = request.POST.get('total_rs')
+        orders = Orders(first_name=firstName,last_name=lastName,items=item ,phone=phone,email=email,address1=address ,address2=address2 ,state=state ,city=dist ,pin_code= zip ,address_for_next_time=save_info,total_rs=total_rs)
         orders.save()
         address_list = [item, firstName , lastName , phone, email, address, address2, state, dist, zip, save_info ]
-    address_list = []
-    return render(request, 'shop/bynow.html',{'product':product, 'item_list': address_list})
+        order = Orders.objects.all
+        return render( request, 'shop/order.html',{'order':order})
+    else:
+        address_list = []
+        return render(request, 'shop/bynow.html',{'product':product, 'item_list': address_list})
+
+
+
+def order(request):
+    order = Orders.objects.all
+    return render( request, 'shop/order.html',{'order':order})
