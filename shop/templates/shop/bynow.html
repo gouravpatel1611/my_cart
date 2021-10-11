@@ -1,0 +1,608 @@
+{% extends 'shop/besic.html' %}
+{% block title%} Track Your Products {% endblock%}
+
+{% block css%}
+<style>
+    .form-div {
+        border-radius: 5px;
+        margin-top: 3%;
+        padding: 2%;
+        color: black;
+        background-color: rgba(224, 107, 235, 0.349);
+        width: fit-content;
+        height: max-content;
+    }
+
+    .by-btn {
+        margin-left: 30%;
+    }
+
+    .body-container {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    .row {
+        flex-direction: row;
+    }
+
+    .row-rev {
+        flex-direction: row-reverse;
+    }
+
+
+    .summary {
+        border-radius: 20px;
+        margin-top: 3%;
+        height: max-content;
+        width: max-content;
+        padding: 2%;
+    }
+
+    .summary1 {
+        background-color: rgb(126 221 149);
+        min-width: 40%;
+        display: none;
+    }
+
+    .summary2 {
+
+        background-color: rgb(212, 247, 221);
+    }
+
+    .price {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    body {
+        background-color: rgba(0, 0, 0, 0.137)
+    }
+
+    #itm_jeson,
+    #total_rs {
+        display: none;
+    }
+</style>
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+    #buy_cart {
+        min-width: 40%;
+    }
+
+    #itm_no {
+
+        background-color: #0033ff;
+        border-radius: 25px;
+    }
+
+    .h5 {
+        max-width: max-content;
+    }
+
+    #buy_cart,
+    #summary {
+        padding: 20px 50px
+    }
+
+
+    #register p.text-muted {
+        margin: 0
+    }
+
+    #register {
+        background-color: #d9ecf2
+    }
+
+    #register a {
+        text-decoration: none;
+        color: #333
+    }
+
+    #buy_cart,
+    #summary {
+        max-width: 500px
+    }
+
+    .h6 {
+        font-size: 1.2rem;
+        font-weight: 700
+    }
+
+    .h6 a {
+        text-decoration: none;
+        font-size: 1rem
+    }
+
+    .item img {
+        object-fit: cover;
+        border-radius: 5px
+    }
+
+    .item {
+        position: relative
+    }
+
+    .number {
+        position: absolute;
+        font-weight: 800;
+        color: #fff;
+        background-color: #0033ff;
+        padding-left: 7px;
+        border-radius: 50%;
+        border: 1px solid #fff;
+        width: 25px;
+        height: 25px;
+        top: -5px;
+        right: -5px
+    }
+
+    .display-5 {
+        font-size: 1.2rem
+    }
+
+    #buy_cart~p.text-muted {
+        margin: 0;
+        font-size: 0.9rem
+    }
+
+    tr.text-muted td {
+        border: none
+    }
+
+    .fa-minus,
+    .fa-plus {
+        font-size: 0.7rem
+    }
+
+    .table td {
+        padding: 0.3rem
+    }
+
+    .btn.text-uppercase {
+        border: 1px solid #333;
+        font-weight: 600;
+        border-radius: 0px
+    }
+
+    .btn.text-uppercase:hover {
+        background-color: #333;
+        color: #eee
+    }
+
+    .btn.text-white {
+        background-color: #66cdaa;
+        border-radius: 0px
+    }
+
+    .btn.text-white:hover {
+        background-color: #3cb371
+    }
+
+    .wrapper .row+div.text-muted {
+        font-size: 0.9rem
+    }
+
+    .total {
+        border-top: 2px solid black;
+    }
+
+    .border-cart {
+        border-bottom: 2px solid black;
+    }
+
+
+    .cart_top {
+        justify-content: space-between;
+    }
+
+    .no_price {
+        display: flex;
+        justify-content: space-between;
+        width: 50%;
+    }
+
+    .df {
+        display: flex;
+        align-items: center;
+    }
+
+    .go_cart {
+        margin: auto;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        margin-top: 3%;
+    }
+</style>
+
+
+{% endblock %}
+{% block body %}
+
+<div class="body-container">
+
+    <div class="col-md-8 order-md-1 form-div">
+        <h4 class="mb-3">Billing address</h4>
+
+
+        <form id="form" class="needs-validation" novalidate="" method="post" action=""> {% csrf_token %}
+            <input id="itm_jeson" name="item_jeson" type="text" value="halo">
+            <input id="total_rs" name="total_rs" type="text" value="t">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="firstName">First name</label>
+                    <input type="text" class="form-control" name="firstName" id="firstName" placeholder="" value=""
+                        required="">
+                    <div class="invalid-feedback"> Valid first name is required. </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="lastName">Last name</label>
+                    <input type="text" class="form-control" name="lastName" id="lastName" placeholder="" value=""
+                        required="">
+                    <div class="invalid-feedback"> Valid last name is required. </div>
+                </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="phone">Phone</label>
+                <input type="text" class="form-control " name="phone" id="phone" placeholder="Enter your phone number"
+                    required="" maxlength="10" minlength="10">
+                <div class="invalid-feedback"> Please enter your valid phone number. </div>
+            </div>
+
+
+
+            <div class="mb-3">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Enter your email address"
+                    required="">
+                <div class="invalid-feedback"> Please enter your valid email address. </div>
+            </div>
+
+
+            <div class="mb-3">
+                <label for="address">Address</label>
+                <input type="text" class="form-control" name="address" id="address" placeholder="1234 Main St"
+                    required="">
+                <div class="invalid-feedback"> Please enter your shipping address. </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="address2">Address 2 <span class="text-muted">(Optional)</span></label>
+                <input type="text" class="form-control" name="address2" id="address2" placeholder="Apartment or suite">
+            </div>
+            <div class="row">
+                <div class="col-md-5 mb-3">
+                    <label for="state">State</label>
+                    <select class="custom-select d-block w-100" name="state" id="state" required="">
+                        <option value="">Choose...</option>
+                        <option>Chhattisgarh</option>
+                        <option>Madhypradesh</option>
+                        <option>Odisha</option>
+                        <option>Bihar</option>
+                        <option>Telangana</option>
+                        <option>Aandhra Pradesh</option>
+                        <option>Maharastra</option>
+                        <option>Uttar Pradesh</option>
+                        <option>Jharkhand</option>
+                    </select>
+                    <div class="invalid-feedback"> Please select a valid state name. </div>
+                </div>
+                <div class="col-md-4 mb-3">
+
+
+                    <label for="dist">District</label>
+                    <select class="custom-select d-block w-100" name="dist" id="dist" required="">
+                        <option value="">Choose...</option>
+                    </select>
+                    <div class="invalid-feedback"> Please provide a valid distric ame. </div>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <label for="zip">Pin </label>
+                    <input type="text" class="form-control" name="zip" id="zip" placeholder="" required="">
+                    <div class="invalid-feedback"> Pin code required. </div>
+                </div>
+            </div>
+
+            <div class="custom-control custom-checkbox">
+                <input type="checkbox" class="custom-control-input" name="save_info" id="save-info">
+                <label class="custom-control-label" for="save-info">Save this information for next time</label>
+            </div>
+            <hr class="mb-4">
+
+
+            <button id="check_out" class="btn by-btn btn-primary btn-lg btn-block" type="submit">Continue to
+                checkout</button>
+        </form>
+    </div>
+
+
+    <!-- jab koi aadmi cart se saman leta hai tab ye wala interface dikhana hai  -->
+    <div class="col-md-4 order-md-2 mb-4 summary summary1">
+        <h4 class="d-flex justify-content-around align-items-center mb-3">
+            <span class="text-muted df">
+                <h2> Your cart </h2><span id="itm_no" class="badge badge-secondary badge-pill mx-3 "> 8</span>
+            </span>
+        </h4>
+        <ul class="list-group mb-3">
+
+
+            <li class="list-group-item d-flex justify-content-between lh-condensed mb-1 border-cart">
+                <div>
+                    <h5 class="my-0">Product name</h5>
+                </div>
+                <div class="no_price">
+                    <b> <span> No. of Items</span> </b>
+                    <span class="text-muted"> <b> Price </b> </span>
+                </div>
+            </li>
+
+            <span id="cart_itm_list">
+
+
+            </span>
+
+
+
+            <li class="list-group-item d-flex justify-content-between bg-light my-2 mb-0">
+                <div class="text-success">
+                    <h6 class="my-0">Promo code</h6>
+                    <small>EXAMPLECODE</small>
+                </div>
+                <span class="text-success">&#x20B9; 0</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between ">
+                <span> Shipping charge </span>
+                <span class="text-danger">&#x20B9; 60/-</span>
+            </li>
+
+            <li class="list-group-item d-flex justify-content-between my-2">
+                <h4> <span> <b> Total (RS.) </b> </span></h4>
+                <h4> <strong> <samp id="total_cart"></samp> </strong></h4>
+            </li>
+        </ul>
+
+        <form class="card p-2">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Promo code">
+                <div class="input-group-append">
+                    <button type="submit" class="btn btn-secondary">Redeem</button>
+                </div>
+            </div>
+        </form>
+
+        <div class="go_cart">
+            <a href="/shop/cart" class="btn btn-info btn-md mr-1 mb-2">
+                <h5>Go To Cart </h5>
+            </a>
+        </div>
+
+    </div>
+    <!-- yaha par ye khatm huaa hai  -->
+
+
+    <!-- yaha par wo dikhaya jayega jab by now me click huaa ho  -->
+    <div id="buy_cart" class=" rounded  summary summary2">
+        <div class="d-flex justify-content-between align-items-center">
+            <div class="h6 m-auto border-cart ">
+                <h3> Cart Summary </h3>
+            </div>
+        </div>
+        <div class="d-flex jusitfy-content-between cart_top align-items-center pt-3 pb-2 border-cart">
+            <div id="cart_img" class="item pr-2 ">
+            </div>
+            <div class="d-flex flex-column px-3 cart_top"> <b class="h5"> <span id="cart_name"></span> </b> <a
+                    href="/shop" class="h5 text-primary"> <span id="cart_category"></span> </a> </div>
+            <div class="ml-auto"> <b class="h5"> <span id="cart_price"></span> </b> </div>
+        </div>
+        <div class="my-3"> <input type="text" class="w-100 form-control text-center" readonly
+                placeholder="You have not now any Gift  or Promo Card"> </div>
+        <div class="d-flex align-items-center price">
+            <div class="display-5">Price</div>
+            <div class="ml-auto font-weight-bold"><span id="cart_price2"></span></div>
+        </div>
+        <div class="d-flex align-items-center py-2  price">
+            <div class="display-5">Shipping charge</div>
+            <div class="ml-auto font-weight-bold">&#x20B9; 60/- </div>
+        </div>
+
+        <div class="d-flex align-items-center py-2 price total">
+            <div class="display-5">Total</div>
+            <div class="ml-auto d-flex">
+                <div class="text-primary text-uppercase px-3"><b> RS.</b></div>
+                <div class="font-weight-bold"> <span id="total_price"></span> </div>
+            </div>
+        </div>
+    </div>
+    <!-- yaha par cary buy now ka khatm hota hai  -->
+
+    <div>
+        {% for i in item_list %}
+        hlao
+        {% endfor %}
+    </div>
+
+</div>
+
+{% endblock %}
+
+{% block js %}
+
+
+
+
+<script>
+
+    (function () {
+        'use strict'
+
+        window.addEventListener('load', function () {
+            // Fetch all the forms we want to apply custom Bootstrap validation styles to
+            var forms = document.getElementsByClassName('needs-validation')
+
+            // Loop over them and prevent submission
+            Array.prototype.filter.call(forms, function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (form.checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.classList.add('was-validated')
+                }, false)
+            })
+        }, false)
+    }())
+
+
+    //   yaha par state ko change karne par distric ko change karne ka code hai
+
+    const selectElement = document.querySelector('#state');
+
+    selectElement.addEventListener('change', (event) => {
+        document.querySelector("#dist").innerHTML = `<option value="">Choose...</option>`
+        if (event.target.value == "Chhattisgarh") {
+            var cg_dist = ["Balod", "Baloda Bazar", "Balrampur", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada (South Bastar)", "Dhamtari", "Durg", "Gariyaband", "Janjgir-Champa", "Jashpur", "Kabirdham (Kawardha)", "Kanker (North Bastar)", "Kondagaon", "Korba", "Korea (Koriya)", "Mahasamund", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sukma", "Surajpur", "Surguja"]
+            Array.from(cg_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+        else if (event.target.value == "Madhypradesh") {
+            var mp_dist = ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Hoshangabad", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha"]
+            Array.from(mp_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+
+        else if (event.target.value == "Odisha") {
+            var Odisha_dist = ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghapur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar (Keonjhar)", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Sonepur", "Sundargarh"]
+            Array.from(Odisha_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+        else if (event.target.value == "Bihar") {
+            var Bihar_dist = ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran (Motihari)", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur (Bhabua)", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger (Monghyr)", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia (Purnea)", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"]
+            Array.from(Bihar_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+        else if (event.target.value == "Telangana") {
+            var Telangana_dist = ["Adilabad", "Bhadradri Kothagudem", "Hyderabad", "Jagtial", "Jangaon", "Jayashankar Bhoopalpally", "Jogulamba Gadwal", "Kamareddy", "Karimnagar", "Khammam", "Komaram Bheem Asifabad", "Mahabubabad", "Mahabubnagar", "Mancherial", "Medak", "Medchal", "Nagarkurnool", "Nalgonda", "Nirmal", "Nizamabad", "Peddapalli", "Rajanna Sircilla", "Rangareddy", "Sangareddy", "Siddipet", "Suryapet", "Vikarabad", "Wanaparthy", "Warangal (Rural)", "Warangal (Urban)", "Yadadri Bhuvanagiri"]
+            Array.from(Telangana_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+        else if (event.target.value == "Aandhra Pradesh") {
+            var ap_dist = ["Anantapur", "Chittoor", "East Godavari", "Guntur", "Kadapa (Cuddapah)", "Krishna", "Kurnool", "Prakasam", "Srikakulam", "Sri Potti Sriramulu Nellore", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR District"]
+            Array.from(ap_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+
+        else if (event.target.value == "Maharastra") {
+            var Maharastra_dist = ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"]
+            Array.from(Maharastra_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+
+        else if (event.target.value == "Uttar Pradesh") {
+            var up_dist = ["Agra", "Aligarh", "Allahabad", "Ambedkar Nagar", "Amethi (Chatrapati Sahuji Mahraj Nagar)", "Amroha (J.P. Nagar)", "Auraiya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Faizabad", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur (Panchsheel Nagar)", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kanshiram Nagar (Kasganj)", "Kaushambi", "Kushinagar (Padrauna)", "Lakhimpur - Kheri", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "RaeBareli", "Rampur", "Saharanpur", "Sambhal (Bhim Nagar)", "Sant Kabir Nagar", "Shahjahanpur", "Shamali (Prabuddh Nagar)", "Shravasti", "Siddharth Nagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"]
+            Array.from(up_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+
+        else if (event.target.value == "Jharkhand") {
+            var Jharkhand_dist = ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribag", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahibganj", "Seraikela-Kharsawan", "Simdega", "West Singhbhum"]
+            Array.from(Jharkhand_dist, function (element) {
+                document.querySelector("#dist").innerHTML = document.querySelector("#dist").innerHTML + `<option>${element}</option>`
+            });
+        }
+        else {
+            document.querySelector("#dist").innerHTML = `<option value="">Choose...</option>`
+        }
+
+
+    });
+
+
+</script>
+
+
+
+<script>
+    // yaha page par item ke anusra templatet lagane ka kaam kiya ja rha hai 
+    if (localStorage.getItem('item') == 'true') {
+        document.querySelector('.body-container').classList.add("row")
+        document.getElementById('buy_cart').style.display = 'none'
+        document.querySelector('.summary1').style.display = 'block'
+        total_rs = 60
+        no_item = 0
+        // yaha par se isme product add karne ka prakriya chalu ho rah hai 
+        var cart_item = JSON.parse(localStorage.getItem('cart'))
+        var item_jeson = {}
+        for (item in cart_item) {
+            no_item += parseInt(cart_item[item])
+            cart_itm_html = document.getElementById('cart_itm_list').innerHTML
+            //{% for item in product%}
+            if ("btn{{item.id}}" == item) {
+                local_clear = true
+                item_jeson["{{item.Product_name}}"] = cart_item[item]
+                document.getElementById('cart_itm_list').innerHTML = cart_itm_html + `
+                    
+                    <li class="list-group-item d-flex justify-content-between lh-condensed">
+                     <div>
+                         <h6 class="my-0">{{item.Product_name}}</h6>
+                            <small class="text-muted">{{item.category}}</small>
+                     </div>
+                     <div class="no_price">
+                            <span>${cart_item[item]}</span>
+                         <span class="text-muted">&#x20B9; ${parseInt(cart_item[item]) * parseInt("{{item.price}}")}/-</span>
+                     </div>
+                    </li>
+                    
+                    `
+                total_rs += parseInt(cart_item[item]) * parseInt("{{item.price}}")
+            }
+            //{% endfor %}
+            document.getElementById('total_cart').innerHTML = `&#x20B9; ${total_rs}/-`
+            document.getElementById('itm_no').innerHTML = no_item
+        }
+        console.log("halo");
+        console.log(item_jeson);
+        document.getElementById('itm_jeson').value = JSON.stringify(item_jeson)
+        document.getElementById('total_rs').value = total_rs
+    }
+    else {
+        document.querySelector('.body-container').classList.add("row-rev")
+        //{% for item in product%}
+        if ("btn{{item.id}}" == JSON.parse(localStorage.getItem('item'))) {
+            local_clear = false
+            document.getElementById('cart_name').innerHTML = "{{item.Product_name}}"
+            document.getElementById('cart_category').innerHTML = "{{item.category}}"
+            document.getElementById('cart_price').innerHTML = "&#x20B9; {{item.price}}/-"
+            document.getElementById('cart_price2').innerHTML = "&#x20B9; {{item.price}}/-"
+            document.getElementById('total_price').innerHTML = `&#x20B9; ${parseInt("{{item.price}}") + 60} /-`
+            document.getElementById('cart_img').innerHTML = ` <img src="/media/{{item.image}}" alt="" width="auto" height="80">`
+            document.getElementById('itm_jeson').value = '{"{{item.Product_name}}":1}'
+            document.getElementById('total_rs').value = "{{item.price}}"
+
+        }
+        //{% endfor %}
+    }
+
+    form = document.getElementById('form')
+    form.addEventListener('submit', function () {
+        if (local_clear == true) {
+            localStorage.clear()
+        }
+       
+    })
+</script>
+
+{% endblock %}

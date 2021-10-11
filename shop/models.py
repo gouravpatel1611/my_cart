@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models.fields import CharField
 from django.db.models.fields.files import ImageField
 
 # Create your models here.
@@ -27,3 +28,24 @@ class Contect(models.Model):
     
     def __str__(self):
         return self.fname
+
+
+
+
+class Orders(models.Model):
+    order_id = models.AutoField(primary_key=True)
+    # items = models,CharField(max_length=5000 , default="" )
+    first_name = models.CharField(max_length=90, default="" )
+    last_name = models.CharField(max_length=90, default="" )
+    items = models.CharField(max_length=500, default="")
+    phone = models.CharField(max_length=90, default="" )
+    email = models.CharField(max_length=90)
+    address1 = models.CharField(max_length=500,default="")
+    address2 = models.CharField(max_length=500,default="")
+    state = models.CharField(max_length=90)
+    city = models.CharField(max_length=90)
+    pin_code = models.CharField(max_length=90)
+    address_for_next_time = models.CharField(max_length=100,default="" )
+    total_rs = models.CharField(max_length=90, default=" ")
+
+    

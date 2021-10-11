@@ -83,7 +83,7 @@
                                 </td>
                             </tr>
                             <td>
-                                <button type="button" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button>
+                                <a href="/shop/buynow/"> <button type="button" onclick="set_itm('btn{{i.id}}')" class="btn btn-primary btn-md mr-1 mb-2">Buy now</button></a>
                                 <button id="btn{{i.id}}" onclick="add_to_cart(this.id)" type="button"
                                 class="btn btn-info btn-md mr-1 mb-2 mx-3"><i class="fas fa-shopping-cart pr-2"></i>Add
                                 to cart</button>
@@ -188,6 +188,11 @@
         btn()
         update_cart()
         document.getElementById('value').value =  cart["btn{{i.id}}"]
+    }
+    // yah coad buy only ke liye banaya ja rha hai taki agle page me jakr pata chale ki kon se item aay hai 
+    function set_itm(element){
+        console.log(element);
+        localStorage.setItem('item', JSON.stringify(element) )
     }
 </script>
 {% endfor %}
